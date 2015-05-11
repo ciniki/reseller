@@ -1,2 +1,8 @@
-# reseller
-The tools for a reseller business
+Ciniki - Small Business Management Platform
+===========================================
+
+The reseller module stores the tools and interface for a reseller to manager their businesses.
+
+License
+-------
+Ciniki is free software, and is released under the terms of the MIT License. See LICENSE.md.
