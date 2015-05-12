@@ -98,7 +98,10 @@ function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
 			$this->Cell(35, 14, 'username: ', 0, 0, 'R');
 			$this->Ln(12);
 			$this->Cell(35, 14, 'password: ', 0, 0, 'R');
+			$this->SetFont('courier', '', 16);
+			$this->setFontSpacing(0.75);
 			$this->Cell(35, 14, '  ' . $password, 0, 0, 'L');
+			$this->setFontSpacing(0);
 		
 			// Footer
 			$this->SetY(60);
