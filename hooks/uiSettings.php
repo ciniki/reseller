@@ -17,7 +17,7 @@ function ciniki_reseller_hooks_uiSettings($ciniki, $business_id, $args) {
     //
     // Setup the default response
     //
-    $rsp = array('stat'=>'ok', 'menu_items'=>array());
+    $rsp = array('stat'=>'ok', 'menu_items'=>array(), 'settings_menu_items'=>array());
 
     //
     // Check permissions for what menu items should be available
@@ -35,7 +35,17 @@ function ciniki_reseller_hooks_uiSettings($ciniki, $business_id, $args) {
             'edit'=>array('app'=>'ciniki.reseller.main'),
             );
         $rsp['menu_items'][] = $menu_item;
+
     } 
+
+    if( isset($ciniki['business']['modules']['ciniki.reseller'])
+        && (isset($args['permissions']['owners'])
+            || isset($args['permissions']['resellers'])
+            || ($ciniki['session']['user']['perms']&0x01) == 0x01
+            )
+        ) {
+        $rsp['settings_menu_items'][] = array('priority'=>2100, 'label'=>'Reseller', 'edit'=>array('app'=>'ciniki.reseller.settings'));
+    }
 
     return $rsp;
 }
