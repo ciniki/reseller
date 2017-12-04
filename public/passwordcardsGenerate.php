@@ -2,7 +2,7 @@
 //
 // Description
 // ===========
-// This method returns a PDF of password cards for printing and signing up new businesses.
+// This method returns a PDF of password cards for printing and signing up new tenants.
 //
 // Arguments
 // ---------
@@ -16,7 +16,7 @@ function ciniki_reseller_passwordcardsGenerate(&$ciniki) {
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'num_cards'=>array('required'=>'no', 'blank'=>'no', 'default'=>'1', 'name'=>'Number of Cards'), 
         'passwords'=>array('required'=>'no', 'blank'=>'no', 'default'=>'no', 'name'=>'Passwords'), 
         )); 
@@ -27,10 +27,10 @@ function ciniki_reseller_passwordcardsGenerate(&$ciniki) {
 
     //  
     // Make sure this module is activated, and
-    // check permission to run this function for this business
+    // check permission to run this function for this tenant
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'reseller', 'private', 'checkAccess');
-    $rc = ciniki_reseller_checkAccess($ciniki, $args['business_id'], 'ciniki.reseller.passwordcardsGenerate'); 
+    $rc = ciniki_reseller_checkAccess($ciniki, $args['tnid'], 'ciniki.reseller.passwordcardsGenerate'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }
@@ -40,7 +40,7 @@ function ciniki_reseller_passwordcardsGenerate(&$ciniki) {
         return $rc;
     }
     $fn = $rc['function_call'];
-    $rc = $fn($ciniki, $args['business_id'], $args);
+    $rc = $fn($ciniki, $args['tnid'], $args);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }

@@ -34,7 +34,7 @@ function ciniki_reseller_settings() {
         };
         this.passwordcards.fieldHistoryArgs = function(s, i) {
             return {'method':'ciniki.reseller.settingsHistory', 
-                'args':{'business_id':M.curBusinessID, 'setting':i}};
+                'args':{'tnid':M.curTenantID, 'setting':i}};
         }
         this.passwordcards.fieldValue = function(s, i, d) {
             if( this.data[i] == null && d.default != null ) { return d.default; }
@@ -74,7 +74,7 @@ function ciniki_reseller_settings() {
     }
 
     //
-    // Grab the stats for the business from the database and present the list of orders.
+    // Grab the stats for the tenant from the database and present the list of orders.
     //
     this.showMenu = function(cb) {
         this.menu.refresh();
@@ -85,7 +85,7 @@ function ciniki_reseller_settings() {
     // show the paypal settings
     //
     this.passwordcardsShow = function(cb) {
-        M.api.getJSONCb('ciniki.reseller.settingsGet', {'business_id':M.curBusinessID}, function(rsp) {
+        M.api.getJSONCb('ciniki.reseller.settingsGet', {'tnid':M.curTenantID}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -103,7 +103,7 @@ function ciniki_reseller_settings() {
     this.passwordcardsSave = function() {
         var c = this.passwordcards.serializeForm('no');
         if( c != '' ) {
-            M.api.postJSONCb('ciniki.reseller.settingsUpdate', {'business_id':M.curBusinessID}, 
+            M.api.postJSONCb('ciniki.reseller.settingsUpdate', {'tnid':M.curTenantID}, 
                 c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);

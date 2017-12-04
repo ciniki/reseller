@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This function produces 1 or more 3x5 password cards for use when signing up new businesses.
+// This function produces 1 or more 3x5 password cards for use when signing up new tenants.
 //
 // Arguments
 // ---------
@@ -10,30 +10,30 @@
 // Returns
 // -------
 //
-function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
+function ciniki_reseller_templates_passwordcards($ciniki, $tnid, $args) {
 
     require_once($ciniki['config']['ciniki.core']['lib_dir'] . '/tcpdf/tcpdf.php');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'loadCacheOriginal');
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'businessDetails');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'tenantDetails');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDetailsQueryDash');
 
     //
-    // Load business details
+    // Load tenant details
     //
-    $rc = ciniki_businesses_businessDetails($ciniki, $business_id);
+    $rc = ciniki_tenants_tenantDetails($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
     if( isset($rc['details']) && is_array($rc['details']) ) {   
-        $business_details = $rc['details'];
+        $tenant_details = $rc['details'];
     } else {
-        $business_details = array();
+        $tenant_details = array();
     }
 
     //
     // Load the settings for reseller
     //
-    $rc = ciniki_core_dbDetailsQueryDash($ciniki, 'ciniki_reseller_settings', 'business_id', $business_id, 'ciniki.reseller', 'settings', 'passwordcards');
+    $rc = ciniki_core_dbDetailsQueryDash($ciniki, 'ciniki_reseller_settings', 'tnid', $tnid, 'ciniki.reseller', 'settings', 'passwordcards');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -46,8 +46,8 @@ function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
     //
     // Load INTL settings
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -75,7 +75,7 @@ function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
             // Set font
         }
 
-        public function AddCard($ciniki, $business_id, $password) {
+        public function AddCard($ciniki, $tnid, $password) {
             $this->AddPage();
             $this->SetFillColor(255);
             $this->SetTextColor(0);
@@ -83,7 +83,7 @@ function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
             $this->SetLineWidth(0.15);
             
             if( $this->header_image_id > 0 ) {
-                $rc = ciniki_images_loadCacheOriginal($ciniki, $business_id, $this->header_image_id, 2000, 2000);
+                $rc = ciniki_images_loadCacheOriginal($ciniki, $tnid, $this->header_image_id, 2000, 2000);
                 if( $rc['stat'] == 'ok' ) { 
                     $image = $rc['image'];
                     $img_box_width = ($this->getPageWidth() - $this->left_margin - $this->right_margin);
@@ -119,8 +119,8 @@ function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
 
     // Set PDF basics
     $pdf->SetCreator('Ciniki');
-    $pdf->SetAuthor($business_details['name']);
-    $pdf->footer_text = $business_details['name'];
+    $pdf->SetAuthor($tenant_details['name']);
+    $pdf->footer_text = $tenant_details['name'];
     $pdf->SetTitle('Password Cards');
     $pdf->SetSubject('');
     $pdf->SetKeywords('');
@@ -158,7 +158,7 @@ function ciniki_reseller_templates_passwordcards($ciniki, $business_id, $args) {
                 $password .= substr($chars2, rand(0, strlen($chars2)-1), 1);
             }
         }
-        $pdf->AddCard($ciniki, $business_id, $password);
+        $pdf->AddCard($ciniki, $tnid, $password);
     }
 
     return array('stat'=>'ok', 'pdf'=>$pdf);

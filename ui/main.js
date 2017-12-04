@@ -10,7 +10,7 @@ function ciniki_reseller_main() {
             'mc', 'narrow', 'sectioned', 'ciniki.reseller.main.menu');
         this.menu.sections = {
 //          'add':{'label':'Add', 'list':{
-//              'add':{'label':'Add Business', 'fn':'M.startApp(\'ciniki.businesses.add\', null, \'M.ciniki_sysadmin_main.menu.show();\');'},
+//              'add':{'label':'Add Tenant', 'fn':'M.startApp(\'ciniki.tenants.add\', null, \'M.ciniki_sysadmin_main.menu.show();\');'},
 //              }},
             'tools':{'label':'Tools', 'list':{
                 'passwordcards':{'label':'Password Cards', 'fn':'M.ciniki_reseller_main.passwordcardsShow(\'M.ciniki_reseller_main.showMenu();\');'},
@@ -63,7 +63,7 @@ function ciniki_reseller_main() {
     }
 
     //
-    // Grab the stats for the business from the database and present the list of orders.
+    // Grab the stats for the tenant from the database and present the list of orders.
     //
     this.showMenu = function(cb) {
         this.menu.refresh();
@@ -83,7 +83,7 @@ function ciniki_reseller_main() {
     // Generate the pdf
     //
     this.passwordcardsGenerate = function() {
-        var args = {'business_id':M.curBusinessID};
+        var args = {'tnid':M.curTenantID};
         args['num_cards'] = M.ciniki_reseller_main.passwordcards.formValue('num_cards');
         args['passwords'] = M.ciniki_reseller_main.passwordcards.formValue('passwords');
         M.showPDF('ciniki.reseller.passwordcardsGenerate', args);

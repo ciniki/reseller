@@ -7,12 +7,12 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business to get resellers for.
+// tnid:     The ID of the tenant to get resellers for.
 //
 // Returns
 // -------
 //
-function ciniki_reseller_hooks_uiSettings($ciniki, $business_id, $args) {
+function ciniki_reseller_hooks_uiSettings($ciniki, $tnid, $args) {
 
     //
     // Setup the default response
@@ -22,7 +22,7 @@ function ciniki_reseller_hooks_uiSettings($ciniki, $business_id, $args) {
     //
     // Check permissions for what menu items should be available
     //
-    if( isset($ciniki['business']['modules']['ciniki.reseller'])
+    if( isset($ciniki['tenant']['modules']['ciniki.reseller'])
         && (isset($args['permissions']['owners'])
             || isset($args['permissions']['employees'])
             || isset($args['permissions']['resellers'])
@@ -38,7 +38,7 @@ function ciniki_reseller_hooks_uiSettings($ciniki, $business_id, $args) {
 
     } 
 
-    if( isset($ciniki['business']['modules']['ciniki.reseller'])
+    if( isset($ciniki['tenant']['modules']['ciniki.reseller'])
         && (isset($args['permissions']['owners'])
             || isset($args['permissions']['resellers'])
             || ($ciniki['session']['user']['perms']&0x01) == 0x01

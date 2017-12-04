@@ -1,7 +1,7 @@
-Ciniki - Small Business Management Platform
+Ciniki - Multitenant Cloud Platform
 ===========================================
 
-The reseller module stores the tools and interface for a reseller to manager their businesses.
+The reseller module stores the tools and interface for a reseller to manager their tenants.
 
 License
 -------
