@@ -13,7 +13,7 @@
 function ciniki_reseller_templates_passwordcards($ciniki, $tnid, $args) {
 
     require_once($ciniki['config']['ciniki.core']['lib_dir'] . '/tcpdf/tcpdf.php');
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'loadCacheOriginal');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'loadCacheJPEG');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'tenantDetails');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDetailsQueryDash');
 
@@ -83,7 +83,7 @@ function ciniki_reseller_templates_passwordcards($ciniki, $tnid, $args) {
             $this->SetLineWidth(0.15);
             
             if( $this->header_image_id > 0 ) {
-                $rc = ciniki_images_loadCacheOriginal($ciniki, $tnid, $this->header_image_id, 2000, 2000);
+                $rc = ciniki_images_loadCacheJPEG($ciniki, $tnid, $this->header_image_id, 2000, 2000);
                 if( $rc['stat'] == 'ok' ) { 
                     $image = $rc['image'];
                     $img_box_width = ($this->getPageWidth() - $this->left_margin - $this->right_margin);
